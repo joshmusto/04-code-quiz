@@ -1,4 +1,6 @@
 //set common variables
+var game = document.getElementById("game");
+var buttonStart = document.getElementById("buttonStart");
 var questionNumber = document.getElementById("questionNumber");
 var question = document.getElementById("question");
 var answers = document.getElementById("answers");
@@ -7,6 +9,8 @@ var buttonB = document.getElementById("optionB");
 var buttonC = document.getElementById("optionC");
 var buttonD = document.getElementById("optionD");
 var rightWrong = document.getElementById("rightWrong");
+var flagRight = document.getElementById("flagRight");
+var flagLeft = document.getElementById("flagLeft");
 
 //RNG function
 function getRandomInt(max) {
@@ -33,6 +37,7 @@ var questionsArray = [
     ],
 ];
 
+//the game
 rightAnswer=0;
 usedQuestions=[];
 function newQuestion() {
@@ -42,25 +47,34 @@ function newQuestion() {
     //check if the question has been shown before
     if (usedQuestions.includes(questionSelector)) {
         //if there are questions remaining, pick another...
-        if (usedQuestions.length<15) {
+        if (usedQuestions.length<2) {
             newQuestion();
         }
         //...otherwise, show results
         else {
-
+            endGame();
         }
     }
     //else set it as the current question and add to usedQuestions
     else{
         currentQuestion = questionsArray[questionSelector];
         usedQuestions.push(questionSelector)
+        questionNumber.textContent = "Question " + usedQuestions.length;
         loadQuestion();
         }
     console.log(usedQuestions);
 }
 
 //insert start button here
-newQuestion();
+function newGame() {
+    //clear variables
+    
+    //hide start button, show game
+    buttonStart.style.display="none";
+    game.style.display="inherit";
+    newQuestion();
+}
+buttonStart.addEventListener("click", newGame);
 
 function loadQuestion() {
     //display question and answers
@@ -78,16 +92,18 @@ answers.addEventListener("click", function(event) {
     var chosenAnswer = event.target;
     if (rightAnswer == chosenAnswer) {
         //right answer behavior
-        console.log("right!");
+        flagRight.style.display="inherit";
         newQuestion();
     }
     else {
         //wrong answer behavior
-        console.log("WRONG");
+        flagWrong.style.display="inherit";
     }
 });
 
 //end game and show results function
 function endGame() {
-    
+    //hide game
+    game.style.display = "none";
+    //show results
 }
