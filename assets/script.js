@@ -11,11 +11,30 @@ var buttonD = document.getElementById("optionD");
 var rightWrong = document.getElementById("rightWrong");
 var flagRight = document.getElementById("flagRight");
 var flagLeft = document.getElementById("flagLeft");
+var timer = document.getElementById("timer");
+var results = document.getElementById("results");
 
 //RNG function
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
+
+//timer function
+secondsLeft=60;
+function setTime() {
+    // Sets interval in variable
+    var timerInterval = setInterval(function() {
+      secondsLeft--;
+      timer.textContent=secondsLeft;
+      if(secondsLeft === 0) {
+        // Stops execution of action at set interval
+        clearInterval(timerInterval);
+        // Calls function to create and append image
+        endGame();
+      }
+  
+    }, 1000);
+  }
 
 //array of questions
 var questionsArray = [
@@ -38,8 +57,6 @@ var questionsArray = [
 ];
 
 //the game
-rightAnswer=0;
-usedQuestions=[];
 function newQuestion() {
     //RNG to select question from questionArray
     questionSelector = getRandomInt(questionsArray.length); 
@@ -47,7 +64,7 @@ function newQuestion() {
     //check if the question has been shown before
     if (usedQuestions.includes(questionSelector)) {
         //if there are questions remaining, pick another...
-        if (usedQuestions.length<2) {
+        if (usedQuestions.length<questionsArray.length) {
             newQuestion();
         }
         //...otherwise, show results
@@ -68,10 +85,14 @@ function newQuestion() {
 //insert start button here
 function newGame() {
     //clear variables
-    
+    rightAnswer=0;
+    usedQuestions=[];
+    rightAnswers=0;
     //hide start button, show game
     buttonStart.style.display="none";
     game.style.display="inherit";
+    timer.textContent=60;
+    setTime();
     newQuestion();
 }
 buttonStart.addEventListener("click", newGame);
@@ -79,10 +100,10 @@ buttonStart.addEventListener("click", newGame);
 function loadQuestion() {
     //display question and answers
     question.textContent = currentQuestion[0];
-    optionA.textContent = currentQuestion[1];
-    optionB.textContent = currentQuestion[2];
-    optionC.textContent = currentQuestion[3];
-    optionD.textContent = currentQuestion[4];
+    optionA.textContent = "A. " + currentQuestion[1];
+    optionB.textContent = "B. " + currentQuestion[2];
+    optionC.textContent = "C. " + currentQuestion[3];
+    optionD.textContent = "D. " + currentQuestion[4];
     //set answer for the current question
     rightAnswer = currentQuestion[5];
 }
@@ -90,14 +111,18 @@ function loadQuestion() {
 //click button, check answer
 answers.addEventListener("click", function(event) {
     var chosenAnswer = event.target;
-    if (rightAnswer == chosenAnswer) {
-        //right answer behavior
-        flagRight.style.display="inherit";
-        newQuestion();
-    }
-    else {
-        //wrong answer behavior
-        flagWrong.style.display="inherit";
+    //seemingly redundant check so that clicking anywhere in the 'answers' section isn't detected as a wrong answer
+    if (chosenAnswer != answers){
+        if (rightAnswer == chosenAnswer) {
+            //right answer behavior
+            flagRight.style.display="initial";
+            rightAnswers++;
+            newQuestion();
+        }
+        else {
+            //wrong answer behavior
+            flagWrong.style.display="initial";
+        }
     }
 });
 
@@ -106,4 +131,6 @@ function endGame() {
     //hide game
     game.style.display = "none";
     //show results
+    results.style.display = "inherit"
+    results.textContent="You answered " + rightAnswers + " out of " + usedQuestions.length + " questions correctly!";
 }
