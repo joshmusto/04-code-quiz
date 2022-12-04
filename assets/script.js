@@ -13,6 +13,7 @@ var flagRight = document.getElementById("flagRight");
 var flagLeft = document.getElementById("flagLeft");
 var timer = document.getElementById("timer");
 var results = document.getElementById("results");
+var answerKey = document.getElementById("answerKey");
 
 //RNG function
 function getRandomInt(max) {
@@ -20,16 +21,17 @@ function getRandomInt(max) {
 }
 
 //timer function
-secondsLeft=60;
 function setTime() {
     // Sets interval in variable
     var timerInterval = setInterval(function() {
       secondsLeft--;
-      timer.textContent=secondsLeft;
-      if(secondsLeft === 0) {
+      timer.textContent="Time: " + secondsLeft;
+      timer.style.color = "black";
+      flagRight.style.display="none";
+      if (secondsLeft < 1) {
         // Stops execution of action at set interval
         clearInterval(timerInterval);
-        // Calls function to create and append image
+        // ends game
         endGame();
       }
   
@@ -37,7 +39,7 @@ function setTime() {
   }
 
 //array of questions
-var questionsArray = [
+questionsArray = [
     question1 = [
         "Question01",
         "Answer A",
@@ -69,7 +71,7 @@ function newQuestion() {
         }
         //...otherwise, show results
         else {
-            endGame();
+            secondsLeft=0;
         }
     }
     //else set it as the current question and add to usedQuestions
@@ -84,14 +86,15 @@ function newQuestion() {
 
 //insert start button here
 function newGame() {
-    //clear variables
+    //reset variables
     rightAnswer=0;
     usedQuestions=[];
     rightAnswers=0;
+    secondsLeft=60;
     //hide start button, show game
     buttonStart.style.display="none";
     game.style.display="inherit";
-    timer.textContent=60;
+    timer.textContent="Time: " + 60;
     setTime();
     newQuestion();
 }
@@ -122,6 +125,11 @@ answers.addEventListener("click", function(event) {
         else {
             //wrong answer behavior
             flagWrong.style.display="initial";
+            //subtract from timer, need to manually change the timer.textContent because otherwise it doesn't update until the second is up and the timer sets itself
+            timer.style.color= "red";
+            var newTimer = secondsLeft - 5;
+            secondsLeft = newTimer;
+            timer.textContent = "Time: " + newTimer;
         }
     }
 });
@@ -133,4 +141,27 @@ function endGame() {
     //show results
     results.style.display = "inherit"
     results.textContent="You answered " + rightAnswers + " out of " + usedQuestions.length + " questions correctly!";
+    //create answer key
+    for (let i = 0; i < questionsArray.length; i++) {
+        //grab question info
+        var keyCurrent = usedQuestions[i];
+        var keyRef = questionsArray[keyCurrent];
+        var keyQ = keyRef[0];
+        var keyA = keyRef[5];
+        if (keyA == buttonA) keyA=keyRef[1]
+        else if (keyA == buttonB) keyA=keyRef[2]
+        else if (keyA == buttonC) keyA=keyRef[3]
+        else if (keyA == buttonD) keyA=keyRef[4];
+        //write question info
+        var keyLineQ = document.createElement("li");
+        keyLineQ.setAttribute("id","answerKeyQ");
+        var keyContentQ = document.createTextNode("Q: " + keyQ);
+        keyLineQ.appendChild(keyContentQ);
+        answerKey.appendChild(keyLineQ);
+        var keyLineA = document.createElement("li");
+        keyLineA.setAttribute("id","answerKeyA");
+        var keyContentA = document.createTextNode("A: " + keyA);
+        keyLineA.appendChild(keyContentA);
+        answerKey.appendChild(keyLineA);
+    }
 }

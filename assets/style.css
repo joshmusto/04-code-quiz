@@ -15,6 +15,11 @@ h2 {
     font-size: 30px;
 }
 
+h3{
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
 #questionNumber {
     padding-top: 30px;
     text-align: center;
@@ -34,6 +39,12 @@ button {
     border: solid;
     border-radius: 5px;
     border-color: rgb(255, 205, 198) salmon salmon rgb(255, 205, 198);
+}
+
+#buttonStart {
+    padding: 20px;
+    margin-top: 20px;
+    font-size: 20px;
 }
 
 #rightWrong {
@@ -56,10 +67,28 @@ button {
     display: none;
 }
 
+#timer {
+    margin-left: 10px;
+}
+
 #game, #results {
     display: none;
 }
 
 #results {
     text-align: center;
+    margin-top: 20px;
+}
+
+#answerKey {
+    text-align: center;
+    list-style: none;
+}
+
+#answerKeyQ {
+
+}
+
+#answerKeyA {
+    margin-bottom: 10px;
 }
