@@ -13,6 +13,13 @@ var flagRight = document.getElementById("flagRight");
 var flagLeft = document.getElementById("flagLeft");
 var timer = document.getElementById("timer");
 var results = document.getElementById("results");
+var resultScore = document.getElementById("resultScore");
+var highScores = document.getElementById("highScores");
+var highScore1 = document.getElementById("highScore1");
+var highScore2 = document.getElementById("highScore2");
+var highScore3 = document.getElementById("highScore3");
+var highScore4 = document.getElementById("highScore4");
+var highScore5 = document.getElementById("highScore5");
 var answerKey = document.getElementById("answerKey");
 
 //RNG function
@@ -28,6 +35,7 @@ function setTime() {
       timer.textContent="Time: " + secondsLeft;
       timer.style.color = "black";
       flagRight.style.display="none";
+      flagWrong.style.display="none";
       if (secondsLeft < 1) {
         // Stops execution of action at set interval
         clearInterval(timerInterval);
@@ -103,12 +111,17 @@ buttonStart.addEventListener("click", newGame);
 function loadQuestion() {
     //display question and answers
     question.textContent = currentQuestion[0];
-    optionA.textContent = "A. " + currentQuestion[1];
-    optionB.textContent = "B. " + currentQuestion[2];
-    optionC.textContent = "C. " + currentQuestion[3];
-    optionD.textContent = "D. " + currentQuestion[4];
+    buttonA.textContent = "A. " + currentQuestion[1];
+    buttonB.textContent = "B. " + currentQuestion[2];
+    buttonC.textContent = "C. " + currentQuestion[3];
+    buttonD.textContent = "D. " + currentQuestion[4];
     //set answer for the current question
     rightAnswer = currentQuestion[5];
+    //reset button styles
+    buttonA.setAttribute("id","optionA");
+    buttonB.setAttribute("id","optionB");
+    buttonC.setAttribute("id","optionC");
+    buttonD.setAttribute("id","optionD");
 }
 
 //click button, check answer
@@ -125,6 +138,8 @@ answers.addEventListener("click", function(event) {
         else {
             //wrong answer behavior
             flagWrong.style.display="initial";
+            //gray out incorrect answer
+            event.target.setAttribute("id", "buttonIncorrect");
             //subtract from timer, need to manually change the timer.textContent because otherwise it doesn't update until the second is up and the timer sets itself
             timer.style.color= "red";
             var newTimer = secondsLeft - 5;
@@ -140,7 +155,7 @@ function endGame() {
     game.style.display = "none";
     //show results
     results.style.display = "inherit"
-    results.textContent="You answered " + rightAnswers + " out of " + usedQuestions.length + " questions correctly!";
+    resultScore.textContent="You answered " + rightAnswers + " out of " + usedQuestions.length + " questions correctly!";
     //create answer key
     for (let i = 0; i < questionsArray.length; i++) {
         //grab question info
