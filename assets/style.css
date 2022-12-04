@@ -41,6 +41,11 @@ button {
     border-color: rgb(255, 205, 198) salmon salmon rgb(255, 205, 198);
 }
 
+#buttonIncorrect {
+    background-color: gray;
+    border-color: lightgray black black lightgray;
+}
+
 #buttonStart {
     padding: 20px;
     margin-top: 20px;
@@ -75,9 +80,30 @@ button {
     display: none;
 }
 
-#results {
+#resultScore {
     text-align: center;
     margin-top: 20px;
+}
+
+#scoreboard {
+    display: inline-block;
+}
+
+#formName{
+    display: inherit;
+    font-size: 20px;
+    padding: 20px 10px 20px 10px;
+    background-color: lightsalmon;
+}
+
+#leaderboard{
+    display: inherit;
+    background-color: gray;
+    padding: 20px 40px 20px 40px;
+    margin-bottom: 20px;
+}
+#leaderboard h4{
+    background-color: lightsalmon;
 }
 
 #answerKey {
