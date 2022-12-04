@@ -21,6 +21,8 @@ var highScore3 = document.getElementById("highScore3");
 var highScore4 = document.getElementById("highScore4");
 var highScore5 = document.getElementById("highScore5");
 var answerKey = document.getElementById("answerKey");
+var inputName = document.getElementById("inputName");
+var submitName = document.getElementById("submitName");
 
 //RNG function
 function getRandomInt(max) {
@@ -47,7 +49,7 @@ function setTime() {
   }
 
 //array of questions
-questionsArray = [
+var questionsArray = [
     question1 = [
         "Question01",
         "Answer A",
@@ -148,6 +150,61 @@ answers.addEventListener("click", function(event) {
         }
     }
 });
+
+
+//default empty highScoreData
+var highScoreData = [
+    data1 = [
+        "Not yet set",
+        0
+    ],
+    data2 = [
+        "Not yet set",
+        0
+    ],
+    data3 = [
+        "Not yet set",
+        0
+    ],
+    data4 = [
+        "Not yet set",
+        0
+    ],
+    data5 = [
+        "Not yet set",
+        0
+    ],
+];
+//get highScoreData from local storage
+highScoreData = JSON.parse(localStorage.getItem("highScoreData"));
+//update textContent
+function updateLeaderboard() {
+    highScore1.textContent= data1[0] + ": " + data1[1];
+    highScore2.textContent= data2[0] + ": " + data2[1];
+    highScore3.textContent= data3[0] + ": " + data3[1];
+    highScore4.textContent= data4[0] + ": " + data4[1];
+    highScore5.textContent= data5[0] + ": " + data5[1];
+}
+updateLeaderboard();
+//function for updating leaderboard on name submission
+function newHighScore() {
+    //check rank of new high score
+    for (let i = 0; i < 4; i++) {
+        var compareData = highScoreData[i];
+        if (rightAnswers >= compareData[1]) {
+            var newRecord = [inputName.value, rightAnswers];
+            highScoreData[i]=newRecord;
+            updateLeaderboard();
+            break;
+        }
+    }
+    //update highScoreData in local storage for next time
+    localStorage.setItem("highScoreData", JSON.stringify(highScoreData));
+}
+submitName.addEventListener("click", newHighScore);
+
+
+
 
 //end game and show results function
 function endGame() {
