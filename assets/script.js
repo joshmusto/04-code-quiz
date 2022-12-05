@@ -21,6 +21,7 @@ var highScore3 = document.getElementById("highScore3");
 var highScore4 = document.getElementById("highScore4");
 var highScore5 = document.getElementById("highScore5");
 var answerKey = document.getElementById("answerKey");
+var inputNameLabel = document.getElementById("inputNameLabel");
 var inputName = document.getElementById("inputName");
 var submitName = document.getElementById("submitName");
 
@@ -153,53 +154,90 @@ answers.addEventListener("click", function(event) {
 
 
 //default empty highScoreData
-var highScoreData = [
-    data1 = [
-        "Not yet set",
-        0
-    ],
-    data2 = [
-        "Not yet set",
-        0
-    ],
-    data3 = [
-        "Not yet set",
-        0
-    ],
-    data4 = [
-        "Not yet set",
-        0
-    ],
-    data5 = [
-        "Not yet set",
-        0
-    ],
+highScoreData = [
+    "Not yet set", 
+    0, 
+    "Not yet set", 
+    0, 
+    "Not yet set", 
+    0, 
+    "Not yet set", 
+    0, 
+    "Not yet set", 
+    0,
 ];
 //get highScoreData from local storage
-highScoreData = JSON.parse(localStorage.getItem("highScoreData"));
+//if !null check used to make sure the highScoreData isn't null the first time the person plays the game, making it impossible to add a new high score
+if (localStorage.highScoreData != null)
+{
+    highScoreData = JSON.parse(localStorage.getItem("highScoreData"));
+}
 //update textContent
 function updateLeaderboard() {
-    highScore1.textContent= data1[0] + ": " + data1[1];
-    highScore2.textContent= data2[0] + ": " + data2[1];
-    highScore3.textContent= data3[0] + ": " + data3[1];
-    highScore4.textContent= data4[0] + ": " + data4[1];
-    highScore5.textContent= data5[0] + ": " + data5[1];
+    highScore1.textContent= highScoreData[0] + ": " + highScoreData[1];
+    highScore2.textContent= highScoreData[2] + ": " + highScoreData[3];
+    highScore3.textContent= highScoreData[4] + ": " + highScoreData[5];
+    highScore4.textContent= highScoreData[6] + ": " + highScoreData[7];
+    highScore5.textContent= highScoreData[8] + ": " + highScoreData[9];
 }
 updateLeaderboard();
 //function for updating leaderboard on name submission
 function newHighScore() {
     //check rank of new high score
-    for (let i = 0; i < 4; i++) {
-        var compareData = highScoreData[i];
-        if (rightAnswers >= compareData[1]) {
-            var newRecord = [inputName.value, rightAnswers];
-            highScoreData[i]=newRecord;
-            updateLeaderboard();
-            break;
+    if (rightAnswers >= highScoreData[9]) {
+        if (rightAnswers >= highScoreData[7]) {
+            //4th to 5th
+            highScoreData[9] = highScoreData[7];
+            highScoreData[8] = highScoreData[6];
+            if (rightAnswers >= highScoreData[5]) {
+                //3rd to 4th
+                highScoreData[7] = highScoreData[5];
+                highScoreData[6] = highScoreData[4];
+                if (rightAnswers >= highScoreData[3]) {
+                    //2nd to 3rd
+                    highScoreData[5] = highScoreData[3];
+                    highScoreData[4] = highScoreData[2];
+                    if (rightAnswers >= highScoreData[1]) {
+                        //1st to 2nd
+                        highScoreData[3] = highScoreData[1];
+                        highScoreData[2] = highScoreData[0];
+                        //new 1st
+                        highScoreData[0] = inputName.value;
+                        highScoreData[1] = rightAnswers;
+                    }
+                    else {
+                        //new 2nd
+                        highScoreData[2] = inputName.value;
+                        highScoreData[3] = rightAnswers;
+                    }
+                }
+                else {
+                    //new 3rd
+                    highScoreData[4] = inputName.value;
+                    highScoreData[5] = rightAnswers;
+                }
+            }
+            else {
+                //new 4th
+                highScoreData[6] = inputName.value;
+                highScoreData[7] = rightAnswers;
+            }
         }
+        else {
+            //new 5th
+            highScoreData[8] = inputName.value;
+            highScoreData[9] = rightAnswers;
+        }
+        
     }
     //update highScoreData in local storage for next time
     localStorage.setItem("highScoreData", JSON.stringify(highScoreData));
+    //update visual leaderboard
+    updateLeaderboard();
+    //hide name input form
+    inputNameLabel.style.display="none";
+    inputName.style.display="none";
+    submitName.style.display = "none";
 }
 submitName.addEventListener("click", newHighScore);
 
