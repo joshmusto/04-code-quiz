@@ -52,20 +52,84 @@ function setTime() {
 //array of questions
 var questionsArray = [
     question1 = [
-        "Question01",
-        "Answer A",
-        "Answer B",
-        "Answer C",
-        "Answer D",
-        buttonA
+        "What notation is used to make comments in HTML?",
+        "//",
+        "<comment> ... </comment>",
+        "<!-- ... -->",
+        "//!",
+        buttonC
     ],
     question2 = [
-        "Question02",
-        "Answer A",
-        "Answer B",
-        "Answer C",
-        "Answer D",
+        "What does CSS stand for?",
+        "Character Style Support",
+        "Cheese Sauce Supreme",
+        "Cascading Style Sheets",
+        "Cyber Security Service",
+        buttonC
+    ],
+    question3 = [
+        "What is the purpose of using 'var' when delcaring a variable?",
+        "Declaring the scope of the variable",
+        "Variables can't be declared without using var",
+        "To make code look cooler",
+        "To remind ourselves that we're declaring a variable",
+        buttonA
+    ],
+    question4 = [
+        "What does HTML stand for?",
+        "Hit That Mega Link",
+        "Hyper Text Markup Language",
+        "Hollistic Timers May Launch",
+        "How To Miss Links",
         buttonB
+    ],
+    question5 = [
+        "What's the difference between a class and an id?",
+        "Classes are only used in CSS, id's are only used in HTML",
+        "Id's can only be assigned to elements that already have a class",
+        "Nothing, they are different terms for the same property",
+        "Classes can apply to multiple elements, id's can only apply to one",
+        buttonD
+    ],
+    question6 = [
+        "Information stored using the localStorage function can only be...",
+        "An integer",
+        "A string",
+        "A variable",
+        "Stored, not retrieved",
+        buttonB
+    ],
+    question7 = [
+        "What is the purpose of HTML?",
+        "To be an easy-to-learn introductory coding language",
+        "To make CSS and JavaScript compatible",
+        "To slowly phase out JavaScript",
+        "To give structure and content to a webpage",
+        buttonD
+    ],
+    question8 = [
+        "What are Third Party API's?",
+        "Ad's that appear on the sidebars of websites",
+        "Obscure internet browsers",
+        "Premade libraries of code that can be used as a framework for your own code",
+        "Any website you access by clicking a hyperlink on a webpage",
+        buttonC
+    ],
+    question9 = [
+        "Why do some coders include reset stylesheets in their sites?",
+        "They help make websites consistent across browsers",
+        "To clear a website's cache whenever the site is loaded",
+        "Because otherwise, webpages can't be refreshed",
+        "For fun!",
+        buttonA
+    ],
+    question10 = [
+        "How many sizes of <h> tag are there?",
+        "3",
+        "4",
+        "10",
+        "6",
+        buttonD
     ],
 ];
 
@@ -145,9 +209,11 @@ answers.addEventListener("click", function(event) {
             event.target.setAttribute("id", "buttonIncorrect");
             //subtract from timer, need to manually change the timer.textContent because otherwise it doesn't update until the second is up and the timer sets itself
             timer.style.color= "red";
-            var newTimer = secondsLeft - 5;
-            secondsLeft = newTimer;
-            timer.textContent = "Time: " + newTimer;
+            if ((secondsLeft-5)>0) {
+                secondsLeft = secondsLeft - 5;
+            }
+            else endGame();
+            timer.textContent = "Time: " + (secondsLeft-5);
         }
     }
 });
