@@ -2,12 +2,9 @@
 
 ## Description
 
-<!--- Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
+This site serves as a means of reviewing study material in the form of multiple choice questions. The site is coded in such a way where questions can be added or removed without breaking the functionality of the site. This means that as more material is learned, or needs to be reviewed, more questions can be added. Additional functionality can also potentially be added later. 
 
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
-- What did you learn? -->
+Through development of this site, I learned of some of the versatility and power of arrays, including two-dimensional arrays, and the merits of programming broad frameworks to make them able to handle changes in content more easily.
 
 ## Screenshot
 ![screenshot of site](./assets/screenshot.PNG)

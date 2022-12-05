@@ -52,6 +52,10 @@ button {
     font-size: 20px;
 }
 
+#optionA, #optionB, #optionC, #optionD {
+    margin-bottom: 10px;
+}
+
 #rightWrong {
     padding: 5px;
     text-align: center;
